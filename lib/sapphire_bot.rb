@@ -4,11 +4,11 @@ require 'fileutils'
 require 'open-uri'
 
 # Gems.
+require 'bundler/setup'
 require 'google/apis/youtube_v3'
 require 'google/apis/urlshortener_v1'
-require 'discordrb'
-require 'terminal-table'
-require 'youtube-dl.rb'
+
+Bundler.require(:default)
 
 # Methods that should be accessible everywhere.
 module Kernel

@@ -22,3 +22,4 @@ AllCops:
   Exclude:
     - 'data/*'
     - 'lib/sapphire_bot/config.rb'
+    - 'Gemfile'
