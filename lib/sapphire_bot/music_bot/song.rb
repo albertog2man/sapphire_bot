@@ -32,7 +32,7 @@ module SapphireBot
       end
 
       # Deletes the song file if it can be deleted, or waits until it is and then deletes it.
-      def delete_file
+      def delete
         if can_be_deleted?
           File.delete(@path)
         else

@@ -96,7 +96,7 @@ module SapphireBot
       end
 
       def delete_song_at(index)
-        @queue[index].delete_file
+        @queue[index].delete
         @queue.delete_at(index)
       end
 
@@ -155,7 +155,7 @@ module SapphireBot
 
       # Finds a song in the queue and deletes it.
       def delete_song(song)
-        @queue.find { |x| x == song }.delete_file
+        @queue.find { |x| x == song }.delete
         @queue.delete(song)
       end
 
