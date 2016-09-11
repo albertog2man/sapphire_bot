@@ -34,7 +34,7 @@ module SapphireBot
         if Dir.exist?(@server_dir)
           clean_directory
         else
-          Dir.mkdir(@path)
+          Dir.mkdir(@server_dir)
         end
 
         afk_timer
