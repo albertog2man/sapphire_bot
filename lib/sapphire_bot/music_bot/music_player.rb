@@ -120,7 +120,7 @@ module SapphireBot
 
       # Plays a song and keeps looping it if @repeat is set to true. Deletes it after it has finished.
       def play_song(song)
-        message = respond("Playing \"#{song.title}\" (#{song.duration_formated}) #{song.url}")
+        message = respond("Playing #{song.inspect}")
         LOGGER.debug "Playing a song (#{song.inspect}), repeating: #{@repeat}"
         loop do
           @voice.play_file(song.path)

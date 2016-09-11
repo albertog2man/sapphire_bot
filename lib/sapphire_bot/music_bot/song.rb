@@ -15,6 +15,12 @@ module SapphireBot
         @path = @youtube_dl.filename
         @url = "https://youtu.be/#{@youtube_dl.url}"
         @ready = false
+
+        # People who have downloaded this song.
+        @sent_to = []
+
+        # People who are currently recieving this song.
+        @sending_to = []
       end
 
       # Returns duration in proper format (01:02)
@@ -25,13 +31,23 @@ module SapphireBot
         "#{'0' if minutes < 10}#{minutes}:#{'0' if seconds < 10}#{seconds}"
       end
 
+      # Deletes the song file if it can be deleted, or waits until it is and then deletes it.
       def delete_file
-        File.delete(@path) if File.exist?(@path)
+        if can_be_deleted?
+          File.delete(@path)
+        else
+          Thread.new do
+            while File.exist(@path)
+              File.delete(@path) if can_be_deleted?
+              sleep(10)
+            end
+          end
+        end
       end
 
       # Returns information about the song.
       def inspect
-        "title: #{@title}, duration: #{@duration}, path: #{@path}, url: #{@url}"
+        "\"#{@title}\" (#{duration_formated}) #{@url}"
       end
 
       def download
@@ -48,6 +64,28 @@ module SapphireBot
       def valid?
         @duration < MAX_SONG_LENGTH
       end
+
+      def has_been_downloaded_by(user)
+        @sent_to.include?(user.id)
+      end
+
+      def send_to_user(user)
+        @sending_to << user.id
+
+        Thread.new {user.send_file(File.new(@path), caption = inspect)}
+
+        @sending_to.delete(user.id)
+        @sent_to << user.id
+      rescue
+        @sending_to.delete(user.id) if @sending_to.include?(user.id)
+      end
+
+      private
+
+      def can_be_deleted?
+        @sending_to.empty?
+      end
+
     end
   end
 end
