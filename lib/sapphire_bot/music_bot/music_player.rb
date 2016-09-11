@@ -31,7 +31,11 @@ module SapphireBot
         @playing = false
         @server_dir = "#{Dir.pwd}/data/music_bot/#{id}"
 
-        delete_dir if Dir.exist?(@server_dir)
+        if Dir.exist?(@server_dir)
+          clean_directory
+        else
+          Dir.mkdir(@path)
+        end
 
         afk_timer
       end
@@ -204,6 +208,13 @@ module SapphireBot
           end
 
           nil
+        end
+      end
+
+      def clean_directory
+        Dir.foreach(@path) do |file|
+          fn = File.join(@path, file)
+          File.delete(fn)
         end
       end
     end
