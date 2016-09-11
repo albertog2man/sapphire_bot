@@ -77,11 +77,7 @@ module SapphireBot
       def table
         Terminal::Table.new(headings: %w(# Name Duration Link)) do |t|
           @queue.each_with_index do |song, index|
-            title = if song.title.length >= 15
-                      song.title[0..15].chomp + '...'
-                    else
-                      song.title
-                    end
+            title = song.truncated_title
             duration = song.duration_formated
             url = "<#{song.url}>"
             t.add_row([index + 1, title, duration, url])

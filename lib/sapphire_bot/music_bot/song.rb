@@ -80,6 +80,14 @@ module SapphireBot
         @sending_to.delete(user.id) if @sending_to.include?(user.id)
       end
 
+      def truncated_title
+        if @title.length >= 15
+          @title[0..15].chomp + '...'
+        else
+          @title
+        end
+      end
+
       private
 
       def can_be_deleted?
