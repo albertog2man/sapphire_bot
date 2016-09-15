@@ -29,7 +29,7 @@ module SapphireBot
         @repeat = false
         @skip = false
         @playing = false
-        @server_dir = "#{Dir.pwd}/data/music_bot/#{id}"
+        @server_dir = "#{Dir.pwd}/data/music_bot/#{id}/"
 
         if Dir.exist?(@server_dir)
           clean_directory
@@ -212,9 +212,9 @@ module SapphireBot
       end
 
       def clean_directory
-        Dir.foreach(@path) do |file|
-          fn = File.join(@path, file)
-          File.delete(fn)
+        Dir.foreach(@server_dir) do |file|
+          fn = File.join(@server_dir, file)
+          File.delete(fn) if fn[-1] != '.'
         end
       end
     end
